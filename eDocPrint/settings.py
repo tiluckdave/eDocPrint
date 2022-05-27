@@ -38,8 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_email_verification',
-    'accounts.apps.AccountsConfig',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +49,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `django-phone-auth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `django-phone-auth` specific authentication methods, such as login by phone/email/username.
+    'accounts.backend.CustomAuthBackend',
 ]
 
 ROOT_URLCONF = 'eDocPrint.urls'
@@ -124,20 +131,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-def verified_callback(user):
-    user.is_active = True
-
-EMAIL_VERIFIED_CALLBACK = verified_callback
-EMAIL_FROM_ADDRESS = 'davetilak003@gmail.com'
-EMAIL_MAIL_SUBJECT = 'Confirm your email'
-EMAIL_MAIL_HTML = 'mail.html'
-EMAIL_PAGE_TEMPLATE = 'confirm.html'
-EMAIL_TOKEN_LIFE = 60 * 30
-
-# For Django Email Backend
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'davetilak003@gmail.com'
-EMAIL_HOST_PASSWORD = '$tilak$isnti20'

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title_block  %}
+            Base Title
+        {% endblock title_block  %}
+    </title>
+
+    <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+</head>
+<body>
+    {% block body_block  %}
+        <!-- Base body -->
+    {% endblock body_block  %}
+</body>
+</html>
