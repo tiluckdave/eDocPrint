@@ -20,6 +20,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic.edit import FormView
+from django.views.generic import TemplateView
 
 from .mixins import AnonymousRequiredMixin
 
@@ -36,6 +37,8 @@ from .forms import (
 from .models import EmailAddress, PhoneNumber
 from .tokens import phone_token_generator
 
+def profile(request):
+    return render(request, 'accounts/profile.html')
 
 class PhoneSignupView(AnonymousRequiredMixin, FormView):
     """Display the register form and handle user registration."""
