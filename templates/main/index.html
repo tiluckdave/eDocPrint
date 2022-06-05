@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+
+{% block body_block %}
+<main class="h-full overflow-y-auto">
+    <div class="container px-6 mb-6 mx-auto grid">
+      <h2
+        class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
+      >
+        Welcome {{request.user.username}}
+      </h2>
+
+
+
+      <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">With Validation</h5>
+        </div>
+        <div class="card-content">
+            <div class="card-body">
+                <p class="card-text">Using the basic table up, upload here to see how
+                    <code>.with-validation-filepond</code>-based basic file uploader look. You can use
+                    <a href="https://pqina.nl/filepond/docs/patterns/plugins/file-validate-size/#properties"
+                        target="_blank">see here</a>
+                    or <code>required (to make your input required), data-max-file-size (to limit your input file size), 
+                    data-max-files (to limit your uploaded files), etc (start with data-)</code> attribute
+                    too to implement validation.
+                </p>
+                <!-- File uploader with validation -->
+                <input type="file" class="with-validation-filepond" required multiple
+                    data-max-file-size="1MB" data-max-files="3">
+            </div>
+        </div>
+    </div>
+
+
+
+    </div>
+  </main>
+  {% endblock body_block %}
