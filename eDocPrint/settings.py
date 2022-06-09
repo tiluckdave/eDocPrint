@@ -165,6 +165,7 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 
+
 """
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";

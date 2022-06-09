@@ -4,12 +4,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Windmill Dashboard</title>
+    <title>eDocPrint - {% block title %}{% endblock title %}</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="{% static 'css/tailwind.output.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
     <script
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
       defer
@@ -30,8 +31,20 @@
       <div class="flex flex-col flex-1 w-full">
         
         {% include 'navbar.html' %}
-        {% block body_block %}{% endblock body_block %}
-      </div>
+
+        {% if not spin %}
+        <a
+        class="flex items-center justify-between mr-6 ml-6 mt-6 p-4 text-sm font-semibold text-purple-100 bg-purple-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
+        href="https://github.com/estevanmaito/windmill-dashboard"
+        >
+        <div class="flex items-center">
+          <span>Set your file access pin</span>
+        </div>
+        <span>Click here &RightArrow;</span>
+      </a>
+      {% endif %}
+      {% block body_block %}{% endblock body_block %}
+    </div>
     </div>
   </body>
 </html>
