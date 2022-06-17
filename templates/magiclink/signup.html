@@ -31,6 +31,7 @@
             </h1>
             <form action="{% url 'magiclink:signup' %}" method="post">
             {% csrf_token %}
+            <input type="hidden" name="form_name" value="SignupForm" id="id_form_name">
           
                         <label class="block text-sm">
               <span class="text-gray-700 dark:text-gray-400">Name</span>

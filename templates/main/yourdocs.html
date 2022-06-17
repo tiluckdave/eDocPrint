@@ -9,65 +9,47 @@
         class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
       >
         Your Documents
-      </h2> 
-
-
-
-      <div>
         <button
           @click="openModal"
           class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
         >
           Open Modal
         </button>
-      </div>
+      </h2> 
+
+
+
+      
+    
 
 
 
 
 
     <!-- form to upload documents -->
-    <form method="post" enctype="multipart/form-data">
-{% csrf_token %}
-        <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full px-3">
-                <label
-                    for="file"
-                    class="block uppercase text-gray-700 text-xs font-bold mb-2"
-                >
-                    Upload a document
-                </label>
-                <input
-                    type="file"
-                    name="file"
-                    id="file"
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                >
-
-            </div>
-            <button type="submit">Submit</button>
-
-            </div>
-
-            </form>
+    
 
             <!-- end of form -->
 
             <!-- display user documents -->
-            <div class="flex flex-wrap -mx-3 mb-6">
-                <div class="w-full px-3">
-                    <label
-                        for="file"
-                        class="block uppercase text-gray-700 text-xs font-bold mb-2"
-                    >
-                        Your Documents
-                    </label>
-                    <ul>
-                        {% for doc in docs %}
-                            <li>{{ doc.name }}</li>
-                        {% endfor %}
-                    </ul>
+            <div class="grid gap-6 my-8 md:grid-cols-2 xl:grid-cols-4">
+              <!-- Card -->
+              {% for doc in docs %}
+              <div
+                class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
+              >
+                
+                <div>
+                  <img src="" alt="">
+                  <p
+                    class="text-lg font-semibold text-gray-700 dark:text-gray-200"
+                  >
+                  {{ doc.name }}
+                  </p>
+                  
                 </div>
+              </div>
+              {% endfor %}
             </div>
 
 
@@ -133,16 +115,44 @@
           Upload a new Document
         </p>
         <!-- Modal description -->
-        
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+                  <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full px-3">
+                        <label class="block text-sm mt-4">
+                          <span class="text-gray-700 dark:text-gray-400">Document Name</span>
+                          <input
+                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                            placeholder="Give a name (e.g. Aadhar Card)" type="text" name="name" required autofocus="autofocus"
+                          />
+                         
+                        </label>
+                        <label class="block text-sm mt-4">
+                          <span class="text-gray-700 dark:text-gray-400">Choose a File</span>
+                          <input
+                              type="file"
+                              name="file"
+                              id="file"
+                              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" accept="application/pdf"
+                          >
+                          </label>
+          
+                      </div>
+                      
+          
+                      </div>
+          
+                    
       </div>
-      <footer
+      <form
         class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800"
       >
         <button
-          class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit"
         >
           Upload
         </button>
+        </form>
       </footer>
     </div>
   </div>
