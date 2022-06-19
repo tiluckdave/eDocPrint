@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
     {% load static %}
+
+    {% load pwa %}
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,6 +23,8 @@
     <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
     <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
     <script src="{% static 'js/filepond.js' %}"></script>
+    {% progressive_web_app_meta %}
+
   </head>
   <body>
     <div

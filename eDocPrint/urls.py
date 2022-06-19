@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('auth/', include('magiclink.urls', namespace='magiclink')),
+    path('', include('pwa.urls')),
 ] 
 
 if settings.DEBUG:
