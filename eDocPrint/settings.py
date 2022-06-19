@@ -144,7 +144,6 @@ STATICFILES_DIRS = (
 )
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 STATIC_ROOT =  os.path.join(BASE_DIR, 'staticfiles')
-PWA_SERVICE_WORKER_PATH = os.path.join(STATICFILES_DIRS[0], 'serviceworker.js')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -210,8 +209,17 @@ PWA_APP_NAME = 'eDocPrint'
 PWA_APP_DESCRIPTION = "eDocPrint is a web application for printing documents."
 PWA_APP_THEME_COLOR = '#7e3af2' 
 PWA_APP_BACKGROUND_COLOR = '#ffffff' 
-PWA_APP_DISPLAY = 'standalone' 
-PWA_APP_SCOPE = '/' 
-PWA_APP_ORIENTATION = 'portrait' 
-PWA_APP_START_URL = '/' 
-PWA_APP_STATUS_BAR_COLOR = '#7e3af2'
+PWA_APP_ICONS = [
+    {
+        "src": "/static/img/edp.png",
+        "sizes": "500x500",
+        "type": "image/png"
+    }
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        "src": "/static/img/edp.png",
+        "sizes": "500x500",
+        "type": "image/png"
+    }
+]
