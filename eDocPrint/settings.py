@@ -212,14 +212,14 @@ PWA_APP_THEME_COLOR = '#7e3af2'
 PWA_APP_BACKGROUND_COLOR = '#ffffff' 
 PWA_APP_ICONS = [
     {
-        "src": "/static/img/edp.png",
+        "src": "https://edocprint.s3.ap-south-1.amazonaws.com/img/edp.png",
         "sizes": "512x512",
         "type": "image/png"
     }
 ]
 PWA_APP_ICONS_APPLE = [
     {
-        "src": "/static/img/edp.png",
+        "src": "https://edocprint.s3.ap-south-1.amazonaws.com/img/edp.png",
         "sizes": "512x512",
         "type": "image/png"
     }
