@@ -35,7 +35,7 @@ def order_payment(request):
             request,
             "main/payment.html",
             {
-                "callback_url": "http://" + "127.0.0.1:8000" + "/razorpay/callback/",
+                "callback_url": "http://" + request.META['HTTP_HOST'] + "/razorpay/callback/",
                 "razorpay_key": os.getenv("RZP_KEY_ID"),
                 "order": order,
             },

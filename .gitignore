@@ -4,3 +4,6 @@ __pycache__
 migrations
 media
 venv
+*.pem
+links.txt
+rootkey.csv
