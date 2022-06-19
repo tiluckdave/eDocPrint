@@ -205,6 +205,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 """
 
+# PWA_SERVICE_WORKER_PATH = 'https://edocprint.s3.ap-south-1.amazonaws.com/sw.js'
 PWA_APP_NAME = 'eDocPrint' 
 PWA_APP_DESCRIPTION = "eDocPrint is a web application for printing documents."
 PWA_APP_THEME_COLOR = '#7e3af2' 
@@ -212,14 +213,14 @@ PWA_APP_BACKGROUND_COLOR = '#ffffff'
 PWA_APP_ICONS = [
     {
         "src": "/static/img/edp.png",
-        "sizes": "500x500",
+        "sizes": "512x512",
         "type": "image/png"
     }
 ]
 PWA_APP_ICONS_APPLE = [
     {
         "src": "/static/img/edp.png",
-        "sizes": "500x500",
+        "sizes": "512x512",
         "type": "image/png"
     }
 ]
