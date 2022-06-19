@@ -4,159 +4,152 @@
 
 {% block body_block %}
 <main class="h-full overflow-y-auto">
-    <div class="container px-6 mb-6 mx-auto grid">
-      <h2
-        class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
-      >
+  <div class="container px-6 mb-6 mx-auto grid">
+    <div class="flex justify-between items-center">
+
+      <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
         Your Documents
-        <button
-          @click="openModal"
-          class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        >
-          New Doc
-        </button>
-      </h2> 
+      </h2>
+      <button @click="openModal"
+      class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+      <span class="mr-2" aria-hidden="true">+</span>
+      Add Document
+    </button>
+  </div>
 
 
 
-      
-    
+
+
 
 
 
 
 
     <!-- form to upload documents -->
-    
 
-            <!-- end of form -->
 
-            <!-- display user documents -->
-            <div class="grid gap-6 my-8 md:grid-cols-2 xl:grid-cols-4">
-              <!-- Card -->
-              {% for doc in docs %}
-              <div
-                class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
-              >
-                
-                <div>
-                  <img src="" alt="">
-                  <p
-                    class="text-lg font-semibold text-gray-700 dark:text-gray-200"
-                  >
-                  {{ doc.name }}
-                  </p>
-                  
-                </div>
+    <!-- end of form -->
+
+    <!-- display user documents -->
+    <div class="grid gap-6 my-6 md:grid-cols-2 xl:grid-cols-4">
+      <!-- Card -->
+      {% for doc in docs %}
+      <a href="{{doc.document.url}}">
+      <div
+      class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
+    >
+      <div
+        class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500"
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </div>
+      <div>
+        <p
+          class="text-lg font-semibold text-gray-700 dark:text-gray-200"
+        >
+          {{ doc.name|truncatechars:14 }}
+        </p>
+        <p
+          class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400"
+        >
+          {{ doc.pages }} Pages
+        </p>
+      </div>
+    </div>
+  </a>
+      {% endfor %}
+    </div>
+
+
+
+
+
+
+
+    <!-- Modal backdrop. This what you want to place close to the closing body tag -->
+    <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0"
+      x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150"
+      x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+      class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
+      <!-- Modal -->
+      <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
+        x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0  transform translate-y-1/2" @click.away="closeModal"
+        @keydown.escape="closeModal"
+        class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
+        role="dialog" id="modal">
+        <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
+        
+        <!-- Modal body -->
+        <div class="mt-4 mb-6">
+          <!-- Modal title -->
+          <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
+            {% if spin %}
+            Upload a new Document
+            {% else %}
+            Set S-Pin first
+            {% endif %}
+          </p>
+
+          <!-- Modal description -->
+          {% if spin %}
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="flex flex-wrap -mx-3 mb-6">
+              <div class="w-full px-3">
+                <label class="block text-sm mt-4">
+                  <span class="text-gray-700 dark:text-gray-400">Document Name</span>
+                  <input
+                    class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                    placeholder="Give a name (e.g. Aadhar Card)" type="text" name="name" required
+                    autofocus="autofocus" />
+
+                </label>
+                <label class="block text-sm mt-4">
+                  <span class="text-gray-700 dark:text-gray-400">Choose a File</span>
+                  <input type="file" name="file" id="file"
+                    class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                    accept="application/pdf">
+                </label>
+
               </div>
-              {% endfor %}
+
+
             </div>
 
 
-
-
-
-
-
-            <!-- Modal backdrop. This what you want to place close to the closing body tag -->
-    <div
-    x-show="isModalOpen"
-    x-transition:enter="transition ease-out duration-150"
-    x-transition:enter-start="opacity-0"
-    x-transition:enter-end="opacity-100"
-    x-transition:leave="transition ease-in duration-150"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0"
-    class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
-  >
-    <!-- Modal -->
-    <div
-      x-show="isModalOpen"
-      x-transition:enter="transition ease-out duration-150"
-      x-transition:enter-start="opacity-0 transform translate-y-1/2"
-      x-transition:enter-end="opacity-100"
-      x-transition:leave="transition ease-in duration-150"
-      x-transition:leave-start="opacity-100"
-      x-transition:leave-end="opacity-0  transform translate-y-1/2"
-      @click.away="closeModal"
-      @keydown.escape="closeModal"
-      class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
-      role="dialog"
-      id="modal"
-    >
-      <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
-      <header class="flex justify-end">
-        <button
-          class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700"
-          aria-label="close"
-          @click="closeModal"
-        >
-          <svg
-            class="w-4 h-4"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            role="img"
-            aria-hidden="true"
-          >
-            <path
-              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-              fill-rule="evenodd"
-            ></path>
-          </svg>
-        </button>
-      </header>
-      <!-- Modal body -->
-      <div class="mt-4 mb-6">
-        <!-- Modal title -->
-        <p
-          class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300"
-        >
-          Upload a new Document
-        </p>
-        <!-- Modal description -->
-        <form method="post" enctype="multipart/form-data">
-          {% csrf_token %}
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                      <div class="w-full px-3">
-                        <label class="block text-sm mt-4">
-                          <span class="text-gray-700 dark:text-gray-400">Document Name</span>
-                          <input
-                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
-                            placeholder="Give a name (e.g. Aadhar Card)" type="text" name="name" required autofocus="autofocus"
-                          />
-                         
-                        </label>
-                        <label class="block text-sm mt-4">
-                          <span class="text-gray-700 dark:text-gray-400">Choose a File</span>
-                          <input
-                              type="file"
-                              name="file"
-                              id="file"
-                              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" accept="application/pdf"
-                          >
-                          </label>
-          
-                      </div>
-                      
-          
-                      </div>
-          
-                    
-      </div>
-      <form
-        class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800"
-      >
-        <button
-          class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit"
-        >
-          Upload
-        </button>
+        </div>
+        <form
+          class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
+          <button
+            class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+            type="submit">
+            Upload
+          </button>
         </form>
-      </footer>
+        {% else %}
+        <p class="text-gray-500 my-6">
+          Setting your S-Pin is must before uploading documents. <br>
+          Encryption of documents is done using hash of S-Pin.
+        </p>
+        <a href="{% url 'settings' %}"
+            class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+            >
+            Go to settings
+          </a>
+        {% endif %}
+        </footer>
+      </div>
     </div>
+    <!-- End of modal backdrop -->
   </div>
-  <!-- End of modal backdrop -->
-    </div>
-  </main>
-  {% endblock body_block %}
+</main>
+{% endblock body_block %}

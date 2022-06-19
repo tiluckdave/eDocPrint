@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 from django.utils.translation import gettext_lazy as _
 from .constants import PaymentStatus
+import uuid
 
 key = os.getenv('PIN_KEY')
 
@@ -24,9 +25,16 @@ class SecurePin(models.Model):
         self.pin = fernet.encrypt(self.pin.decode('utf-8').encode())
         super().save()
 
+
+def get_file_path(instance, filename):
+    name = filename.split('.')[0]
+    ext = filename.split('.')[-1]
+    filename = "%s-%s.%s" % (name, uuid.uuid4(), ext)
+    return os.path.join('documents', filename)
+
 class Document(models.Model):
     name = models.CharField(max_length=100)
-    document = models.FileField(upload_to='documents/')
+    document = models.FileField(upload_to=get_file_path)
     pages = models.IntegerField(default=0)
     prize = models.IntegerField(default=0)
     uploaded_at = models.DateTimeField(auto_now_add=True)

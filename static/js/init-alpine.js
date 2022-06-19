@@ -54,6 +54,10 @@ function data() {
       this.isModalOpen = true
       this.trapCleanup = focusTrap(document.querySelector('#modal'))
     },
+    openLogoutModal() {
+      this.isModalOpen = true
+      this.trapCleanup = focusTrap(document.querySelector('#logout'))
+    },
     closeModal() {
       this.isModalOpen = false
       this.trapCleanup()
