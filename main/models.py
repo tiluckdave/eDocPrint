@@ -14,6 +14,19 @@ fernet = Fernet(key)
 
 # Create your models here.
 load_dotenv()
+
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    area = models.CharField(max_length=100, default='')
+    distrcit = models.CharField(max_length=100, default="")
+    state = models.CharField(max_length=100, default="")
+    country = models.CharField(max_length=100, default="")
+    pincode = models.CharField(max_length=6, default="")
+    
+    def __str__(self):
+        return self.area + ", " + self.distrcit + ", " + self.state + ", " + self.country + ", " + self.pincode
+    
+
 class SecurePin(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     pin = models.CharField(max_length=1000)

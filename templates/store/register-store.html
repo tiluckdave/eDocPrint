@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Settings{% endblock title %}
+
+{% block body_block %}
+<main class="h-full overflow-y-auto">
+  <div class="container px-6 mb-6 mx-auto grid">
+    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+      Register Store
+    </h2>
+
+    <!-- set spin form  -->
+
+
+
+  <div
+      class="p-4 bg-white rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800">
+    
+      {% if address %}
+
+      
+      <h5 class="text-xl font-medium text-gray-900 dark:text-white">Store Registration Form</h5>
+      <p class="text-gray-600 dark:text-gray-400">
+        PLease fill out the form below to register your store. Make sure all the details are correct! You will be able to edit your store details later.
+      </p>
+      
+      
+      <form method="post" class="space-y-6">
+        {% csrf_token %}
+        
+        
+        
+        <label class="block text-sm mt-6">
+          <span class="text-gray-700 dark:text-gray-400">Store/Shop Name</span>
+        <input
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+          placeholder="Shop Name (e.g. My Xerox Center)" name="name" type="text" required />
+          <span class="text-gray-500 text-xs dark:text-gray-400 ml-2">Visible to everyone</span>
+        </label>
+      <label class="block text-sm mt-6">
+        <span class="text-gray-700 dark:text-gray-400">Store Owner Name</span>
+        <input
+        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+        placeholder="Store Owner Name" name="owner" type="text"  />
+        <span class="text-gray-500 text-xs dark:text-gray-400 ml-2">Visible to everyone</span>
+      </label>
+
+      {% if address|length > 1 %}
+      <label class="block text-sm mt-6">
+        <span class="text-gray-700 dark:text-gray-400">Select Store Address</span>
+        <select id="area" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="address" >
+          {% for addr in address %}
+          <option value="{{addr.id}}">{{addr}}</option>
+          {% endfor %}
+        </select>
+        <span class="text-gray-500 text-xs dark:text-gray-400 ml-2">Visible to everyone</span>
+      </label>
+      {% else %}
+      <label class="block text-sm mt-6">
+        <span class="text-gray-700 dark:text-gray-400">Store Address</span>
+        <input
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            type="text" value="{{address.0}}" disabled />
+          <span class="text-gray-500 text-xs dark:text-gray-400 ml-2">Visible to everyone</span>
+        </label>
+        <input type="hidden" name="address" value="{{address.0.id}}">
+      {% endif %}
+
+      <label class="block text-sm mt-6">
+        <span class="text-gray-700 dark:text-gray-400">Store Email Address</span>
+        <input
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+          placeholder="example@example.com" name="email" type="email"   />
+          <span class="text-gray-500 text-xs dark:text-gray-400 ml-2">Visible to everyone</span>
+        </label>
+      <label class="block text-sm mt-6">
+        <span class="text-gray-700 dark:text-gray-400">Store Phone Number</span>
+        <input
+        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+        placeholder="+91 999 9999 999" name="phone" type="tel"   />
+        <span class="text-gray-500 text-xs dark:text-gray-400 ml-2">Visible to everyone</span>
+      </label>
+      
+      
+      <button
+      class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+      type="submit">
+      Submit
+      </button>
+    </form>
+    {% else %}
+    <h5 class="text-lg font-medium text-gray-900 dark:text-white text-center">Oops! You cannot fill this form. Please go back and add address first! <br><br>
+      
+      <a href="{% url 'settings' %}"
+        class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+        >
+        Go Back
+    </a>
+    </h5>
+    {% endif %}
+  </div>
+  
+
+
+  
+
+
+  
+  </div>
+</main>
+
+
+{% endblock body_block %}

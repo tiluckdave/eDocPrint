@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Document, SecurePin, Order
+from .models import Document, SecurePin, Order, Address
+from store.models import Store
 from cryptography.fernet import Fernet
 import os
 import PyPDF2
@@ -72,4 +73,20 @@ def settings(req):
     context = {'spin':False}
     if SecurePin.objects.filter(user=req.user).exists():
         context['spin'] = True
+    address = Address.objects.filter(user=req.user)
+    context['address'] = address
+    if Store.objects.filter(user=req.user).exists():
+        context['store'] = True
     return render(req, "main/settings.html", context)
+
+def addAddress(req):
+    if req.method == "POST":
+        address = Address(user=req.user, area=req.POST['area'], distrcit=req.POST['district'], state=req.POST['state'], country=req.POST['country'], pincode=req.POST['pincode'])
+        address.save()
+        return redirect(to='settings')
+    return redirect(to='settings')
+
+def deleteAddr(req, id):
+    address = Address.objects.get(id=id)
+    address.delete()
+    return redirect(to='settings')
