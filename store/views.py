@@ -3,7 +3,6 @@ from main.models import Document, SecurePin, Address
 from .models import Store
 
 
-
 # Create your views here.
 def orders(req):
     return render(req, "store/orders.html")
