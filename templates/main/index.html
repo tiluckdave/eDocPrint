@@ -3,21 +3,133 @@
 {% block title %}Instant Print{% endblock title %}
 
 {% block body_block %}
+
+
+
 <main class="h-full overflow-y-auto">
     <div class="container px-6 mb-6 mx-auto grid">
       <h2
-        class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
+      class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
       >
-        Welcome {{request.user.username}}
-      </h2>
+      Instant Print 
+    </h2>
+
+    <div class="flex flex-col w-full justify-between lg:flex-row">
+    <div class="p-4 bg-white w-full lg:w-7/12 rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800" id="choose">
+
+      <form action="{% url 'createOrder' %}" method="post">
+      {% csrf_token %}
+
+      <label class="block text-sm mt-2">
+        <span class="text-gray-700 dark:text-gray-400">Choose Document</span>
+        <select 
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+          name="document" onchange="updateBill()" id="documet_selecter">
+          <option default>Choose Document</option>
+          {% for doc in docs %}
+            <option value="{{doc.pages}},{{doc.id}}">{{ doc.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label class="block text-sm mt-2">
+        <span class="text-gray-700 dark:text-gray-400">Select Print Type</span>
+        <select
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+          name="print_type" id="print_type" onchange="updateBill()" >
+            <option default>Select Print Type</option>
+            <option value="bo">B/W One Side</option>
+            <option value="bt">B/W Two Side</option>
+            <option value="co">Color One Side</option>
+            <option value="ct">Color Two Side</option>
+            <option value="ps">Photo Print 4x6</option>
+            <option value="pl">Photo Print A4</option>
+        </select>
+      </label>
+      <label class="block text-sm mt-2">
+        <span class="text-gray-700 dark:text-gray-400">Choose Store</span>
+        <select 
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+          name="store" onchange="updateBill()" id="store" >
+          <option default>Select Store</option>
+          {% for store in stores %}
+            <option value="{{ store.id }}">{{ store }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label class="block text-sm mt-2">
+        <span class="text-gray-700 dark:text-gray-400">Payment Mode</span>
+        <select
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+          name="payment_mode" onchange="updateBill()" id="payment_mode" >
+            <option default>Select Payment Mode</option>
+            <option value="card">Card</option>
+            <option value="cash">Cash</option>
+        </select>
+      </label>
+
+      <input type="hidden" name="rate" id="rate">
+      
+      <button
+        class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+        >
+        Submit
+      </button>
+    </form>
+  
+  </div>
+  <div class="p-4 bg-white mt-6 lg:mt-0 w-full lg:w-2/5 rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800">
+    {% comment %} generate bill {% endcomment %}
+    
+        <h3 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+          Bill
+        </h3>
+        No. Of Pages: <span id="noOfPages"></span> <br>
+        Ammount per page: <span id="amount_per_page"></span> <br>
+        <br>
+        Total Amount: <span id="totalAmount"></span> <br>
+        Platform & Payment Charges: <span id="tax"></span> <br>
+        <br>
+        Total Payable: <span id="totalPayable"></span> <br>
 
 
-      <section class="section">
-    <div class="container">
-      <button class="button is-primary" id="submitBtn">Purchase!</button>
-    </div>
-  </section>
+      
+  </div>
+
+</div>     
 
     </div>
   </main>
+
+
+  <script>
+    
+    function updateBill() {
+      pages = document.getElementById('documet_selecter');
+      document.getElementById('noOfPages').innerHTML = pages.value.split(',')[0];
+    
+      store = document.getElementById('store');
+      store_id = store.value;
+      print_type = document.getElementById('print_type');
+      print_type_val = print_type.value;
+      fetch('{% url 'getRates' %}?store_id=' + store_id + '&print_type=' + print_type_val)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('amount_per_page').innerHTML = data.rate;
+        document.getElementById('totalAmount').innerHTML = data.rate * document.getElementById('noOfPages').innerHTML;
+        tax = document.getElementById('payment_mode');
+        if (tax.value == 'card') {
+          document.getElementById('tax').innerHTML = (parseFloat(document.getElementById('totalAmount').innerHTML) * 0.05).toFixed(2);
+        } else {
+          document.getElementById('tax').innerHTML = '0';
+        }
+        var rate = parseFloat(document.getElementById('totalAmount').innerHTML) + parseFloat(document.getElementById('tax').innerHTML);
+        document.getElementById('totalPayable').innerHTML = rate.toFixed(2);
+        document.getElementById('rate').value = rate.toFixed(2);
+      })
+    
+    }
+
+
+  </script>
+
   {% endblock body_block %}

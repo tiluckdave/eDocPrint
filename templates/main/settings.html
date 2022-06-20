@@ -116,6 +116,82 @@
 
 
 
+    <div class="p-4 bg-white rounded-lg shadow-md mt-6 sm:p-6 lg:p-8 dark:bg-gray-800">
+
+    
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Store Rates</h5>
+      
+        <p class="text-gray-600 dark:text-gray-400 pt-2">
+          Modify your rates for your store. <br /> This will reflect to your customers once you save!  
+        </p>
+        <form action="{% url 'updateStoreRates' %}" method="post">
+        {% csrf_token %}
+        <label class="flex flex-col justify-between md:flex-row items-center mt-3">
+          <p class="text-gray-800 dark:text-gray-200 text-lg w-full">One Side B/W 
+          </p>
+          <input
+            class="block w-full  mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
+            name="bnw_one_side_rate" type="number" value="{{ store_settings.bnw_one_side_rate }}" />
+            <p class="text-gray-800 dark:text-gray-200 text-sm ml-3">Rupees
+            </p>
+        </label>
+        <label class="flex flex-col justify-between md:flex-row items-center mt-3">
+          <p class="text-gray-800 dark:text-gray-200 text-lg w-full">Two Side B/W 
+          </p>
+          <input
+            class="block w-full  mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
+            name="bnw_two_side_rate" type="number" value="{{ store_settings.bnw_two_side_rate }}" />
+            <p class="text-gray-800 dark:text-gray-200 text-sm ml-3">Rupees
+            </p>
+        </label>
+        <label class="flex flex-col justify-between md:flex-row items-center mt-3">
+          <p class="text-gray-800 dark:text-gray-200 text-lg w-full">One Side Color
+          </p>
+          <input
+            class="block w-full  mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
+            name="color_one_side_rate" type="number" value="{{ store_settings.color_one_side_rate }}" />
+            <p class="text-gray-800 dark:text-gray-200 text-sm ml-3">Rupees
+            </p>
+        </label>
+        <label class="flex flex-col justify-between md:flex-row items-center mt-3">
+          <p class="text-gray-800 dark:text-gray-200 text-lg w-full">Two Side Color
+          </p>
+          <input
+            class="block w-full  mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
+            name="color_two_side_rate" type="number" value="{{ store_settings.color_two_side_rate }}" />
+            <p class="text-gray-800 dark:text-gray-200 text-sm ml-3">Rupees
+            </p>
+        </label>
+        <label class="flex flex-col justify-between md:flex-row items-center mt-3">
+          <p class="text-gray-800 dark:text-gray-200 text-lg w-full">4x6 Photo Print
+          </p>
+          <input
+          class="block w-full  mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
+          name="photo_4x6_rate" type="number" value="{{ store_settings.photo_4x6_rate }}" />
+          <p class="text-gray-800 dark:text-gray-200 text-sm ml-3">Rupees
+          </p>
+        </label>
+        <label class="flex flex-col justify-between md:flex-row items-center mt-3">
+          <p class="text-gray-800 dark:text-gray-200 text-lg w-full">A4 Photo Print 
+          </p>
+          <input
+            class="block w-full  mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
+            name="photo_A4_rate" type="number" value="{{ store_settings.photo_A4_rate }}" />
+            <p class="text-gray-800 dark:text-gray-200 text-sm ml-3">Rupees
+            </p>
+        </label>
+        
+        <button
+          class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          >
+          Save
+        </button>
+      </form>
+    
+    </div>
+
+
+
 
     {% endif %}
 
