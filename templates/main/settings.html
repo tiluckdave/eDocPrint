@@ -10,237 +10,307 @@
     </h2>
 
     <!-- set spin form  -->
-{% if not request.user.is_staff %}
-{% if not spin %}
-    <div
-      class="p-4 bg-white rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800">
+    {% if not request.user.is_staff %}
+    {% if not spin %}
+    <div class="p-4 bg-white rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800">
 
-        <form method="post" class="space-y-6">
-      <h5 class="text-xl font-medium text-gray-900 dark:text-white">Setup S-Pin</h5>
-      <p class="text-gray-600 dark:text-gray-400">
-        Enter your S-Pin to complete your account setup. <br />
-        S-Pin is a 4-digit code that will be used for encrypting your documents.
-        Remember this code, as it will be required before printing and deleting your documents.
-      </p>
-      {% csrf_token %}
-      <label class="block text-sm mt-6">
-        <span class="text-gray-700 dark:text-gray-400">Set Secure Pin</span>
-        <input
-          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
-          placeholder="XXXX" name="pin" type="number" />
-      </label>
-      <label class="block text-sm mt-6">
-        <span class="text-gray-700 dark:text-gray-400">Set Secure Pin</span>
-        <input
-          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
-          placeholder="XXXX" name="confpin" type="number" />
-      </label>
-      <button
-        class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        type="submit">
-        Submit
-      </button>
-    </form>
-  </div>
-  {% else %}
-  <div
-      class="p-4 bg-white rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800">
-
-        <form method="post" class="space-y-6">
-      <h5 class="text-xl font-medium text-gray-900 dark:text-white">Forgot S-Pin</h5>
-      {% csrf_token %}
-      <p class="text-gray-600 dark:text-gray-400 pt-2">
-        We will reset your S-Pin and send it to your email.
-      </p>
-      <button
-        class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        type="submit">
-        Send Email
-      </button>
-    </form>
-  </div>
-  {% endif %}
-  {% endif %}
-
-  <div
-      class="p-4 bg-white mt-6 rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800">
-      {% if address %}
-        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Address</h5>
-        <p class="text-gray-400 dark:text-gray-600">
-          eDocPrint uses your address to show you nearby print stations! 
+      <form method="post" class="space-y-6">
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Setup S-Pin</h5>
+        <p class="text-gray-600 dark:text-gray-400">
+          Enter your S-Pin to complete your account setup. <br />
+          S-Pin is a 4-digit code that will be used for encrypting your documents.
+          Remember this code, as it will be required before printing and deleting your documents.
         </p>
-        {% for addr in address  %}
-        <div
-              class="px-4 py-1 bg- mt-4 border border-gray-100 dark:border-gray-700 rounded-lg dark:bg-gray-800 flex justify-between items-center"
-            >
-            <p class="text-gray-600 text-lg dark:text-gray-400">
-              {{ addr }}
-            </p>
-            <a href="/delete-address/{{addr.id}}"
-          class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-md active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red"
+        {% csrf_token %}
+        <label class="block text-sm mt-6">
+          <span class="text-gray-700 dark:text-gray-400">Set Secure Pin</span>
+          <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
+            placeholder="XXXX" name="pin" type="number" />
+        </label>
+        <label class="block text-sm mt-6">
+          <span class="text-gray-700 dark:text-gray-400">Set Secure Pin</span>
+          <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
+            placeholder="XXXX" name="confpin" type="number" />
+        </label>
+        <button
+          class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          type="submit">
+          Submit
+        </button>
+      </form>
+    </div>
+    {% else %}
+    <div class="p-4 bg-white rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800">
+
+      <form method="post" class="space-y-6">
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Forgot S-Pin</h5>
+        {% csrf_token %}
+        <p class="text-gray-600 dark:text-gray-400 pt-2">
+          We will reset your S-Pin and send it to your email.
+        </p>
+        <button
+          class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          type="submit">
+          Send Email
+        </button>
+      </form>
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="p-4 bg-white rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800">
+
+    
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Store Settings</h5>
+      
+        <p class="text-gray-600 dark:text-gray-400 pt-2">
+          Modify your store settings. <br /> This will reflect to your customers once you save!  
+        </p>
+        <form action="{% url 'updateStoreDetails' %}" method="post">
+        {% csrf_token %}
+        <label class="flex flex-col justify-between md:flex-row items-center mt-6">
+          <p class="text-gray-800 dark:text-gray-200 text-lg w-full">Store Name
+            <span class="block text-gray-700 text-sm dark:text-gray-400">Changes made will reflext everywhere quickly
+            </span>
+          </p>
+          <input
+            class="block w-full  mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
+            placeholder="Store Name" name="name" type="text" value="{{ store.Store_name }}" />
+        </label>
+        <label class="flex flex-col justify-between md:flex-row items-center mt-6">
+          <p class="text-gray-800 dark:text-gray-200 text-lg w-full">Store Owner Name
+            <span class="block text-gray-700 text-sm dark:text-gray-400">Changes made will reflext everywhere quickly
+            </span>
+          </p>
+          <input
+            class="block w-full  mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
+            placeholder=" Owner Name" name="owner" type="text" value="{{ store.Store_operator }}" />
+        </label>
+        <label class="flex flex-col justify-between md:flex-row items-center mt-6">
+          <p class="text-gray-800 dark:text-gray-200 text-lg w-full">Store Email
+            <span class="block text-gray-700 text-sm dark:text-gray-400">Your contact email will be changed! Account email remains the same.
+            </span>
+          </p>
+          <input
+            class="block w-full  mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
+            placeholder="Store Email" name="email" type="email" value="{{ store.Store_email }}" />
+        </label>
+        <label class="flex flex-col justify-between md:flex-row items-center mt-6">
+          <p class="text-gray-800 dark:text-gray-200 text-lg w-full">Store Phone
+            <span class="block text-gray-700 text-sm dark:text-gray-400">Your contact phone will be changed
+            </span>
+          </p>
+          <input
+            class="block w-full  mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
+            placeholder="Store Phone" name="phone" type="tel" value="{{ store.Store_phone }}" />
+        </label>
+        
+        <button
+          class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
           >
+          Save
+        </button>
+      </form>
+    
+    </div>
+
+
+
+
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="p-4 bg-white mt-6 rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800">
+      {% if address %}
+      <h5 class="text-xl font-medium text-gray-900 dark:text-white">Address</h5>
+      <p class="text-gray-400 dark:text-gray-600">
+        eDocPrint uses your address to show you nearby print stations!
+      </p>
+      {% for addr in address %}
+      <div
+        class="px-4 py-1 bg- mt-4 border border-gray-100 dark:border-gray-700 rounded-lg dark:bg-gray-800 flex justify-between items-center">
+        <p class="text-gray-600 text-lg dark:text-gray-400">
+          {{ addr }}
+        </p>
+        <a href="/delete-address/{{addr.id}}"
+          class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-md active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red">
           Delete
         </a>
-            </div>
-        {% endfor %}
-        <h4 class="text-lg text-gray-900 dark:text-white mt-4">Add Address</h4>
+      </div>
+      {% endfor %}
+      <h4 class="text-lg text-gray-700 dark:text-gray-300 mt-4">Add Address</h4>
       {% else %}
       <h5 class="text-xl font-medium text-gray-900 dark:text-white">Address Setup</h5>
       <p class="text-gray-600 dark:text-gray-400">
-        eDocPrint uses your address to show you nearby print stations!  <br />
+        eDocPrint uses your address to show you nearby print stations! <br />
         Please enter your area pin-code!
       </p>
       {% endif %}
-      
+
       <form method="post" action="add-address/" class="space-y-6">
         {% csrf_token %}
-        <label class="block mt-4 text-sm">
+        <label class="block mt-2 text-sm">
           <span class="text-gray-700 dark:text-gray-400">
-            Pincode          </span>
-            <div
-            class="relative text-gray-500 focus-within:text-purple-600"
-            >
+            Pincode </span>
+          <div class="relative text-gray-500 focus-within:text-purple-600">
             <input
-            class="block w-full pr-20 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
-            placeholder="_ _ _ _ _ _" type="number" id="pincode" name="pincode" />
-            
+              class="block w-full pr-20 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+              placeholder="_ _ _ _ _ _" type="number" id="pincode" name="pincode" />
+
             <button
               class="absolute inset-y-0 right-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-r-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-            onclick="lookup()" type="button" >
-            Search
+              onclick="lookup()" type="button">
+              Search
             </button>
           </div>
         </label>
 
-        <label class="block text-sm mt-6">
-        <span class="text-gray-700 dark:text-gray-400">Area</span>
-        <select name="area" id="area" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center" name="area" onchange="lookupcity()">
-          <option value="">Select Area</option>
-        </select>
-      <label class="block text-sm mt-6">
-        <span class="text-gray-700 dark:text-gray-400">District</span>
-        <input
-          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
-          placeholder="Dsitrict" name="district" type="text" id="city" />
-        </label>
-      <label class="block text-sm mt-6">
-        <span class="text-gray-700 dark:text-gray-400">State</span>
-        <input
-        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
-          placeholder="State" name="state" type="text" id="state"  />
-        </label>
-      <label class="block text-sm mt-6">
-        <span class="text-gray-700 dark:text-gray-400">Country</span>
-        <input
-          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input text-center"
-          placeholder="Country" name="country" type="text" id="country"  />
-        </label>
-
-        
-        <p id="result"></p>
-        <button
-        class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        type="submit">
-        Submit
-      </button>
-    </form>
-  </div>
+        <label class="block text-sm mt-2">
+          <span class="text-gray-700 dark:text-gray-400">Area</span>
+          <select name="area" id="area"
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            name="area" onchange="lookupcity()" >
+          </select>
+          <label class="block text-sm mt-2">
+            <span class="text-gray-700 dark:text-gray-400">District</span>
+            <input
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input "
+              placeholder="Dsitrict" name="district" type="text" id="city" />
+          </label>
+          <label class="block text-sm mt-2">
+            <span class="text-gray-700 dark:text-gray-400">State</span>
+            <input
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input "
+              placeholder="State" name="state" type="text" id="state" />
+          </label>
+          <label class="block text-sm mt-2">
+            <span class="text-gray-700 dark:text-gray-400">Country</span>
+            <input
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="Country" name="country" type="text" id="country" />
+          </label>
 
 
+          <p id="result"></p>
+          <button
+            class="px-4 py-2 mt-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+            type="submit">
+            Submit
+          </button>
+      </form>
+    </div>
 
-  <div
-      class="p-4 bg-white my-6 rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800">
-    
-     
-  
+
+
+    <div class="p-4 bg-white my-6 rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800">
+
+
+
       <h5 class="text-xl font-medium text-gray-900 dark:text-white">Advanced</h5>
 
-      {% if not store %}
+      {% if not is_store %}
       <div class="flex justify-between items-center mt-4">
 
         <h4 class="text-gray-800 dark:text-gray-200  text-lg">
           Register as a Store
-          <p class="text-gray-600 dark:text-gray-400 text-sm">If you own a stationary store and provide printing needs to customer you can register as a store <br/>Verification will be required</p>
+          <p class="text-gray-600 dark:text-gray-400 text-sm">If you own a stationary store and provide printing needs
+            to customer you can register as a store <br />Verification will be required</p>
         </h4>
         <a href="{% url 'registerStore' %}"
-        class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        >
-        Register
-      </a>
-          </div>
-          {% else %}
-          {% if request.user.is_staff %}
-          <div class="flex justify-between items-center mt-4">
-    
-            <h4 class="text-gray-800 dark:text-gray-200  text-lg">
-              Turn off Store Mode
-              <p class="text-gray-600 dark:text-gray-400 text-sm">Go back to customer moder. Same as turning off Store Mode. </p>
-            </h4>
-            <a href="{% url 'toggleStore' %}"
-            class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-            >
-            Turn Off
-          </a>
-              </div>
-              {% else %}
-              <div class="flex justify-between items-center mt-4">
-        
-                <h4 class="text-gray-800 dark:text-gray-200  text-lg">
-                  Turn On Store Mode
-                  <p class="text-gray-600 dark:text-gray-400 text-sm">Go back to Store mode. Check whats new in your dashboard</p>
-                </h4>
-                <a href="{% url 'toggleStore' %}"
-                class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                >
-                Turn On
-              </a>
-                  </div>
+          class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          Register
+        </a>
+      </div>
+      {% else %}
+      {% if request.user.is_staff %}
+      <div class="flex justify-between items-center mt-4">
 
-              {% endif %}
-          {% endif %}
+        <h4 class="text-gray-800 dark:text-gray-200  text-lg">
+          Turn off Store Mode
+          <p class="text-gray-600 dark:text-gray-400 text-sm">Go back to customer moder. Same as turning off Store Mode.
+          </p>
+        </h4>
+        <a href="{% url 'toggleStore' %}"
+          class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          Turn Off
+        </a>
+      </div>
+      {% else %}
+      <div class="flex justify-between items-center mt-4">
+
+        <h4 class="text-gray-800 dark:text-gray-200  text-lg">
+          Turn On Store Mode
+          <p class="text-gray-600 dark:text-gray-400 text-sm">Go back to Store mode. Check whats new in your dashboard
+          </p>
+        </h4>
+        <a href="{% url 'toggleStore' %}"
+          class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          Turn On
+        </a>
+      </div>
+
+      {% endif %}
+      {% endif %}
       <div class="flex justify-between items-center mt-4">
 
         <h4 class="text-gray-800 dark:text-gray-200  text-lg">
           Delete Account?
-          <p class="text-gray-600 dark:text-gray-400 text-sm">Deleting your account will loose all the documents, addresses and transaction details. <br/>This action is irreversible</p>
+          <p class="text-gray-600 dark:text-gray-400 text-sm">Deleting your account will loose all the documents,
+            addresses and transaction details. <br />This action is irreversible</p>
         </h4>
         <button
-        class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red"
-        type="button">
-        Delete
-      </button>
-          </div>
-      
-      
-  </div>
-  
+          class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red"
+          type="button">
+          Delete
+        </button>
+      </div>
 
 
-  
+    </div>
+
+
+
+
   </div>
 </main>
 
 <script>
 
-  function lookup(){
+  function lookup() {
     var pincode = document.getElementById("pincode").value;
     var area = document.getElementById("area");
     area.innerHTML = "";
     // disable input
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         var response = JSON.parse(this.responseText);
         // set options in select 
-        for(var i = 0; i < response[0].PostOffice.length; i++){
+        for (var i = 0; i < response[ 0 ].PostOffice.length; i++) {
           var option = document.createElement("option");
-          option.value = response[0].PostOffice[i].Name;
-          option.innerHTML = response[0].PostOffice[i].Name;
+          option.value = response[ 0 ].PostOffice[ i ].Name;
+          option.innerHTML = response[ 0 ].PostOffice[ i ].Name;
           area.appendChild(option);
         }
-        document.getElementById("city").value =  response[0].PostOffice[0].District;
-        document.getElementById("state").value =  response[0].PostOffice[0].State;
-        document.getElementById("country").value =  response[0].PostOffice[0].Country;
+        document.getElementById("city").value = response[ 0 ].PostOffice[ 0 ].District;
+        document.getElementById("state").value = response[ 0 ].PostOffice[ 0 ].State;
+        document.getElementById("country").value = response[ 0 ].PostOffice[ 0 ].Country;
       }
     };
     xmlhttp.open("GET", "https://api.postalpincode.in/pincode/" + pincode, true);
@@ -250,14 +320,14 @@
     var area = document.getElementById("area").value;
     var pincode = document.getElementById("pincode").value;
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         var response = JSON.parse(this.responseText);
-        for(var i = 0; i < response[0].PostOffice.length; i++){
-          if(response[0].PostOffice[i].Pincode == pincode){
-            document.getElementById("city").value =  response[0].PostOffice[i].District;
-            document.getElementById("state").value =  response[0].PostOffice[i].State;
-            document.getElementById("country").value =  response[0].PostOffice[i].Country;
+        for (var i = 0; i < response[ 0 ].PostOffice.length; i++) {
+          if (response[ 0 ].PostOffice[ i ].Pincode == pincode) {
+            document.getElementById("city").value = response[ 0 ].PostOffice[ i ].District;
+            document.getElementById("state").value = response[ 0 ].PostOffice[ i ].State;
+            document.getElementById("country").value = response[ 0 ].PostOffice[ i ].Country;
           }
         }
       }

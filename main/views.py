@@ -76,7 +76,9 @@ def settings(req):
     address = Address.objects.filter(user=req.user)
     context['address'] = address
     if Store.objects.filter(user=req.user).exists():
-        context['store'] = True
+        store = Store.objects.get(user=req.user)
+        context['is_store'] = True
+        context['store'] = store
     return render(req, "main/settings.html", context)
 
 def addAddress(req):

@@ -37,6 +37,7 @@
         
         {% include 'navbar.html' %}
 
+        {% if not request.user.is_staff %}
         {% if not spin %}
         <a
         class="flex items-center justify-between mr-6 ml-6 mt-6 p-4 text-sm font-semibold text-purple-100 bg-purple-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
@@ -47,6 +48,7 @@
         </div>
         <span>Click here &RightArrow;</span>
       </a>
+      {% endif %}
       {% endif %}
       {% block body_block %}{% endblock body_block %}
     </div>

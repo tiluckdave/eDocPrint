@@ -16,5 +16,16 @@ class Store(models.Model):
     
 class StoreSetting(models.Model):
     store = models.OneToOneField(Store, on_delete=models.CASCADE)
+    bnw_one_side_rate = models.DecimalField(max_digits=10, decimal_places=2, default=2.00)
+    bnw_two_side_rate = models.DecimalField(max_digits=10, decimal_places=2, default=3.00)
+    color_one_side_rate = models.DecimalField(max_digits=10, decimal_places=2, default=5.00)
+    color_two_side_rate = models.DecimalField(max_digits=10, decimal_places=2, default=10.00)
+    photo_4x6_rate = models.DecimalField(max_digits=10, decimal_places=2, default=10.00)
+    photo_A4_rate = models.DecimalField(max_digits=10, decimal_places=2, default=20.00)
+    
+    def __str__(self):
+        return self.store
+    
+    
     
     
