@@ -6,7 +6,13 @@ from main.views import create_checkout_session
 
 # Create your views here.
 def orders(req):
-    return render(req, "store/orders.html")
+    store = Store.objects.get(user=req.user)
+    orders = Order.objects.filter(store=store)
+    context = {}
+    context['orders'] = orders
+    if SecurePin.objects.filter(user=req.user).exists():
+        context['spin'] = True
+    return render(req, "store/orders.html", context)
 
 
 def registerStore(req):
@@ -79,7 +85,21 @@ def createOrder(req):
         payment_mode = req.POST['payment_mode']
         order = Order(user=user, store=store, document=document, print_type=print_type, rate=rate, payment_mode=payment_mode, payment_status="Pending")
         order.save()
+        if payment_mode == "cash":
+            return redirect("index")
         return redirect(create_checkout_session, rate, order.id)
+    return redirect("index")
+
+def deleteOrder(req, id):
+    order = Order.objects.get(id=id)
+    order.delete()
+    return redirect('orders')
+
+def paidOrder(req, id):
+    order = Order.objects.get(id=id)
+    order.payment_status = "Paid"
+    order.save()
+    return redirect('orders')
 
 def toggleStore(req):
     if req.user.is_staff:

@@ -10,4 +10,6 @@ urlpatterns = [
     path("toggle-store", views.toggleStore, name="toggleStore"),
     path("orders", views.orders, name="orders"),
     path("create-order", views.createOrder, name="createOrder"),
+    path("delete-order/<int:id>", views.deleteOrder, name="deleteOrder"),
+    path("paid-order/<int:id>", views.paidOrder, name="paidOrder"),
 ]
