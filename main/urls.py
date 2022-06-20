@@ -6,7 +6,11 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("documents", views.yourdocs, name="yourdocs"),
     path("settings", views.settings, name="settings"),
-    path("payment/", views.order_payment, name="payment"),
     path("add-address/", views.addAddress, name="addAddress"),
     path("delete-address/<int:id>", views.deleteAddr, name="deleteAddr"),
+    path("delete-document/<int:id>", views.deleteDoc, name="deleteDoc"),
+    path('config/', views.stripe_config),  # new
+    path('create-checkout-session/', views.create_checkout_session), # 
+    path('success', views.SuccessView), # new
+    path('cancelled/', views.CancelledView), # new
 ]

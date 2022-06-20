@@ -1,13 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Document, SecurePin, Order, Address
+from django.http.response import JsonResponse # new
+from django.views.decorators.csrf import csrf_exempt # new
+from .models import Document, SecurePin, Address
 from store.models import Store
 from cryptography.fernet import Fernet
 import os
 import PyPDF2
 from dotenv import load_dotenv
-import razorpay
 from django.conf import settings
+import stripe
+from django.views.generic.base import TemplateView
+
+
 
 load_dotenv()
 
@@ -20,28 +25,41 @@ def index(req):
         context['spin'] = True
     return render(req, "main/index.html", context)
 
-def order_payment(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        amount = request.POST.get("amount")
-        client = razorpay.Client(auth=(os.getenv('RZP_KEY_ID'), os.getenv('RZP_KEY_SECRET')))
-        razorpay_order = client.order.create(
-            {"amount": int(amount) * 100, "currency": "INR", "payment_capture": "1"}
-        )
-        order = Order.objects.create(
-            name=name, amount=amount, provider_order_id=razorpay_order["id"]
-        )
-        order.save()
-        return render(
-            request,
-            "main/payment.html",
-            {
-                "callback_url": "http://" + request.META['HTTP_HOST'] + "/razorpay/callback/",
-                "razorpay_key": os.getenv("RZP_KEY_ID"),
-                "order": order,
-            },
-        )
-    return render(request, "main/payment.html")
+@csrf_exempt
+def stripe_config(request):
+    if request.method == 'GET':
+        stripe_config = {'publicKey': os.getenv('STRIPE_PUBLISHABLE_KEY')}
+        return JsonResponse(stripe_config, safe=False)
+
+@csrf_exempt
+def create_checkout_session(request):
+    if request.method == 'GET':
+        domain_url = 'http://localhost:8000/'
+        stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+        try:
+            checkout_session = stripe.checkout.Session.create(
+                customer_email=request.user.email,
+                success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
+                cancel_url=domain_url + 'cancelled/',
+                mode='payment',
+                line_items=[
+                    {
+                        'name': 'Document Print',
+                        'quantity': 1,
+                        'currency': 'inr',
+                        'amount': '100',
+                    }
+                ]
+            )
+            return JsonResponse({'sessionId': checkout_session['id']})
+        except Exception as e:
+            return JsonResponse({'error': str(e)})
+
+def SuccessView(req):
+    return render(req, 'main/payment_success.html')
+
+def CancelledView(req):
+    return render(req, 'main/payment_cancelled.html')
 
 @login_required
 def yourdocs(req):
@@ -92,3 +110,8 @@ def deleteAddr(req, id):
     address = Address.objects.get(id=id)
     address.delete()
     return redirect(to='settings')
+
+def deleteDoc(req, id):
+    doc = Document.objects.get(id=id)
+    doc.delete()
+    return redirect(to='yourdocs')

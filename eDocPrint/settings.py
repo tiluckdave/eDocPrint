@@ -149,8 +149,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-RAZORPAY_KEY_ID = os.getenv('RZP_KEY_ID')
-RAZORPAY_KEY_SECRET = os.getenv('RZP_KEY_SECRET')
 
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')

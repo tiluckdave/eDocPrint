@@ -12,7 +12,7 @@ class Store(models.Model):
     Store_operator = models.CharField(max_length=100)
     
     def __str__(self):
-        return self.Store_name + " " + self.Store_email + " " + self.Store_phone + " " + self.Store_operator
+        return self.Store_name + " - " + self.Store_operator
     
 class StoreSetting(models.Model):
     store = models.OneToOneField(Store, on_delete=models.CASCADE)

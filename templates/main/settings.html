@@ -42,20 +42,19 @@
       </form>
     </div>
     {% else %}
-    <div class="p-4 bg-white rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800">
+    <div class="p-4 bg-white rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800 flex justify-between items-center">
 
-      <form method="post" class="space-y-6">
-        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Forgot S-Pin</h5>
-        {% csrf_token %}
-        <p class="text-gray-600 dark:text-gray-400 pt-2">
-          We will reset your S-Pin and send it to your email.
-        </p>
-        <button
-          class="px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-          type="submit">
-          Send Email
-        </button>
-      </form>
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Forgot S-Pin?
+
+          <p class="text-gray-600 dark:text-gray-400 text-sm">
+            We know it! Should we send it to you...
+          </p>
+        </h5>
+          <button
+            class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+            type="submit">
+            Send Email
+          </button>
     </div>
     {% endif %}
     {% else %}
