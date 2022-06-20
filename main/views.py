@@ -34,7 +34,7 @@ def stripe_config(request):
 @csrf_exempt
 def create_checkout_session(request):
     if request.method == 'GET':
-        domain_url = 'http://localhost:8000/'
+        domain_url = 'http://' + request.get_host()
         stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
         try:
             checkout_session = stripe.checkout.Session.create(
