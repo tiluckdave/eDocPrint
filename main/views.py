@@ -28,10 +28,10 @@ def index(req):
     if Address.objects.filter(user=req.user).exists():
         context['addr_available'] = True
         context['addr'] = Address.objects.filter(user=req.user).first()
-    if Store.objects.filter(address=context['addr']).exists():
-        context['stores'] = Store.objects.filter(address=context['addr'])
+        if Store.objects.filter(address=context['addr']).exists():
+            context['stores'] = Store.objects.filter(address=context['addr'])
     else:
-        context['stores'] = Store.objectsa.all()
+        context['stores'] = Store.objects.all()
     store_settings = StoreSetting.objects.all()
     context['store_settings'] = store_settings
     return render(req, "main/index.html", context)

@@ -16,7 +16,7 @@
 
     <div class="flex flex-col w-full justify-between lg:flex-row">
     <div class="p-4 bg-white w-full lg:w-7/12 rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800" id="choose">
-
+      {% if  %}{% endif %}
       <form action="{% url 'createOrder' %}" method="post">
       {% csrf_token %}
 
