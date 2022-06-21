@@ -6,10 +6,14 @@ from main.views import create_checkout_session
 
 # Create your views here.
 def orders(req):
-    store = Store.objects.get(user=req.user)
-    orders = Order.objects.filter(store=store)
     context = {}
-    context['orders'] = orders
+    if req.user.is_staff:
+        store = Store.objects.get(user=req.user)
+        orders = Order.objects.filter(store=store)
+        context['orders'] = orders
+    else:
+        orders = Order.objects.filter(user=req.user)
+        context['orders'] = orders
     if SecurePin.objects.filter(user=req.user).exists():
         context['spin'] = True
     return render(req, "store/orders.html", context)
