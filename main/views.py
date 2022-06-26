@@ -11,6 +11,8 @@ from dotenv import load_dotenv
 from django.conf import settings
 import stripe
 from django.views.generic.base import TemplateView
+# import messages
+from django.contrib import messages
 
 
 
@@ -67,6 +69,7 @@ def SuccessView(req):
         order = Order.objects.get(id=order_id)
         order.payment_status = "Paid"
         order.save()
+        messages.success(req, 'Order Created Successfully')
     return render(req, 'main/payment_success.html')
 
 def CancelledView(req):
@@ -88,6 +91,7 @@ def yourdocs(req):
         print(totalpages)
         doc = Document(name=name, document=file, pages=totalpages, prize=totalpages*2, user=req.user)
         doc.save()
+        messages.success(req, 'Document uploaded successfully')
     docs = Document.objects.filter(user=req.user) 
     context = {'spin':False, 'docs':docs}
     if SecurePin.objects.filter(user=req.user).exists():
@@ -103,6 +107,9 @@ def settings(req):
             if req.POST['pin'] == req.POST['confpin']:
                 pin = SecurePin(user=req.user, pin=req.POST['pin'].encode())
                 pin.save()
+                messages.success(req, 'Pin created successfully')
+            else:
+                messages.error(req, 'Pin not matched')
     context = {'spin':False}
     if SecurePin.objects.filter(user=req.user).exists():
         context['spin'] = True
@@ -120,17 +127,21 @@ def addAddress(req):
     if req.method == "POST":
         address = Address(user=req.user, area=req.POST['area'], distrcit=req.POST['district'], state=req.POST['state'], country=req.POST['country'], pincode=req.POST['pincode'])
         address.save()
-        return redirect(to='settings')
+        messages.success(req, 'Address added successfully')
+    else:
+        messages.error(req, 'Opps! Something went wrong')
     return redirect(to='settings')
 
 def deleteAddr(req, id):
     address = Address.objects.get(id=id)
     address.delete()
+    messages.success(req, 'Address deleted successfully')
     return redirect(to='settings')
 
 def deleteDoc(req, id):
     doc = Document.objects.get(id=id)
     doc.delete()
+    messages.success(req, 'Document deleted successfully')
     return redirect(to='yourdocs')
 
 def getRates(req):

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from main.models import Document, SecurePin, Address
 from .models import Store, StoreSetting, Order
 from main.views import create_checkout_session
-
+from django.contrib import messages
 
 # Create your views here.
 def orders(req):
@@ -24,10 +24,12 @@ def registerStore(req):
         addr = Address.objects.get(id=req.POST['address'])
         store = Store(user=req.user, Store_name=req.POST['name'], address=addr, Store_email=req.POST['email'], Store_phone=req.POST['phone'], Store_operator=req.POST['owner'])
         store.save()
+        messages.success(req, "Store Registered Successfully")
         store_settings = StoreSetting(store=store)
         store_settings.save()
         req.user.is_staff = True
         req.user.save()
+        messages.success(req, "Logged in as Store")
         return redirect("index")
     context = {'spin':False}
     if SecurePin.objects.filter(user=req.user).exists():
@@ -50,6 +52,7 @@ def updateStoreDetails(req):
         store.Store_phone = req.POST['phone']
         store.Store_operator = req.POST['owner']
         store.save()
+        messages.success(req, "Store Details Updated Successfully")
     return redirect('settings')
 
 def updateStoreRates(req):
@@ -63,6 +66,7 @@ def updateStoreRates(req):
         store_settings.photo_4x6_rate = req.POST['photo_4x6_rate']
         store_settings.photo_A4_rate = req.POST['photo_A4_rate']
         store_settings.save()
+        messages.success(req, "Store Rates Updated Successfully")
     return redirect('settings')
 
 def get_print_type(pt):
@@ -89,6 +93,7 @@ def createOrder(req):
         payment_mode = req.POST['payment_mode']
         order = Order(user=user, store=store, document=document, print_type=print_type, rate=rate, payment_mode=payment_mode, payment_status="Pending")
         order.save()
+        messages.success(req, "Order Created Successfully")
         if payment_mode == "cash":
             return redirect("index")
         return redirect(create_checkout_session, rate, order.id)
@@ -97,18 +102,22 @@ def createOrder(req):
 def deleteOrder(req, id):
     order = Order.objects.get(id=id)
     order.delete()
+    messages.success(req, "Order Deleted Successfully")
     return redirect('orders')
 
 def paidOrder(req, id):
     order = Order.objects.get(id=id)
     order.payment_status = "Paid"
     order.save()
+    messages.success(req, "Order Paid!")
     return redirect('orders')
 
 def toggleStore(req):
     if req.user.is_staff:
         req.user.is_staff = False
+        messages.success(req, "Logged out as Store")
     else:
         req.user.is_staff = True
+        messages.success(req, "Logged in as Store")
     req.user.save()
     return redirect("settings")

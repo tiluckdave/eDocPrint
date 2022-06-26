@@ -26,6 +26,8 @@
    
     <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
     <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.min.css" integrity="sha512-IXuoq1aFd2wXs4NqGskwX2Vb+I8UJ+tGJEu/Dc0zwLNKeQ7CW3Sr6v0yU3z5OQWe3eScVIkER4J9L7byrgR/fA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js" integrity="sha512-JnjG+Wt53GspUQXQhc+c4j8SBERsgJAoHeehagKHlxQN+MtCCmFDghX9/AcbkkNRZptyZU4zC8utK59M5L45Iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{% static 'js/filepond.js' %}"></script>
     <script src="{% static 'sw.js' %}"></script>
     <script src="{% static 'js/main.js' %}" ></script>
@@ -57,8 +59,17 @@
       {% endif %}
       {% block body_block %}{% endblock body_block %}
       
+
         
     
   </body>
-  <script src="{% static 'js/main.js' %}" ></script>
+  <script>
+    {% for msg in messages %}
+    {% if msg.tags == 'success' %}
+    alertify.success('{{msg}}');
+    {% elif msg.tags == 'error' %}
+    alertify.error('{{msg}}');
+    {% endif %}
+    {% endfor %}
+  </script>
 </html>
