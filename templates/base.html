@@ -15,7 +15,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{% static 'css/tailwind.output.css' %}" />
     <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
-    <script src="{% static 'js/main.js' %}" ></script>
+    
     <script src="https://js.stripe.com/v3/"></script>  <!-- new -->
 
     <script
@@ -28,6 +28,7 @@
     <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
     <script src="{% static 'js/filepond.js' %}"></script>
     <script src="{% static 'sw.js' %}"></script>
+    <script src="{% static 'js/main.js' %}" ></script>
     {% progressive_web_app_meta %}
   </head>
   <body>
@@ -68,4 +69,5 @@
     </div>
     </div>
   </body>
+  <script src="{% static 'js/main.js' %}" ></script>
 </html>
