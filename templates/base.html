@@ -64,6 +64,7 @@
     
   </body>
   <script>
+    alertify.set('notifier','position', 'top-center');
     {% for msg in messages %}
     {% if msg.tags == 'success' %}
     alertify.success('{{msg}}');
