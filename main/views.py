@@ -69,10 +69,11 @@ def SuccessView(req):
         order = Order.objects.get(id=order_id)
         order.payment_status = "Paid"
         order.save()
-        messages.success(req, 'Order Created Successfully')
+        messages.success(req, 'Payment Successful!')
     return render(req, 'main/payment_success.html')
 
 def CancelledView(req):
+    messages.error(req, "Payment Failed!")
     return render(req, 'main/payment_cancelled.html')
 
     # return stripe.redirectToCheckout({sessionId: session.id})
