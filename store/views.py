@@ -27,9 +27,7 @@ def registerStore(req):
         messages.success(req, "Store Registered Successfully")
         store_settings = StoreSetting(store=store)
         store_settings.save()
-        req.user.is_staff = True
-        req.user.save()
-        messages.success(req, "Logged in as Store")
+        messages.success(req, "Please wait untill verified by admin")
         return redirect("index")
     context = {'spin':False}
     if SecurePin.objects.filter(user=req.user).exists():
@@ -41,7 +39,12 @@ def registerStore(req):
 def dashboard(req):
     context = {}
     store = Store.objects.get(user=req.user)
+    orders = Order.objects.filter(store=store, payment_mode="card")
+    tostore = 0
+    for order in orders:
+        tostore += order.tostore_rate
     context['store'] = store
+    context['tostore_rate'] = tostore
     return render(req, "store/dashboard.html", context)
 
 def updateStoreDetails(req):
@@ -90,8 +93,9 @@ def createOrder(req):
         document = Document.objects.get(id=req.POST['document'].split(',')[1])
         print_type = get_print_type(req.POST['print_type'])
         rate = req.POST['rate']
+        total = req.POST['total']
         payment_mode = req.POST['payment_mode']
-        order = Order(user=user, store=store, document=document, print_type=print_type, rate=rate, payment_mode=payment_mode, payment_status="Pending")
+        order = Order(user=user, store=store, document=document, print_type=print_type, rate=rate, tostore_rate=total, payment_mode=payment_mode, payment_status="Pending")
         order.save()
         messages.success(req, "Order Created Successfully")
         if payment_mode == "cash":
@@ -111,6 +115,7 @@ def paidOrder(req, id):
     order.save()
     messages.success(req, "Order Paid!")
     return redirect('orders')
+
 
 def toggleStore(req):
     if req.user.is_staff:

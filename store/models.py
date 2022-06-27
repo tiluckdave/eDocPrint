@@ -47,6 +47,7 @@ class Order(models.Model):
     upload = models.FileField(upload_to='documents/', blank=True, null=True)
     print_type = models.CharField(max_length=100)
     rate = models.DecimalField(max_digits=10, decimal_places=2,default=0)
+    tostore_rate = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     payment_mode = models.CharField(max_length=100)
     payment_status = models.CharField(max_length=100)
         

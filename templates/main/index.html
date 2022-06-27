@@ -23,7 +23,7 @@
       <label class="block text-sm mt-2">
         <span class="text-gray-700 dark:text-gray-400">Choose Document</span>
         <select 
-          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" required
           name="document" onchange="updateBill()" id="documet_selecter">
           <option default>Choose Document</option>
           {% for doc in docs %}
@@ -34,7 +34,7 @@
       <label class="block text-sm mt-2">
         <span class="text-gray-700 dark:text-gray-400">Select Print Type</span>
         <select
-          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" required
           name="print_type" id="print_type" onchange="updateBill()" >
             <option default>Select Print Type</option>
             <option value="bo">B/W One Side</option>
@@ -48,7 +48,7 @@
       <label class="block text-sm mt-2">
         <span class="text-gray-700 dark:text-gray-400">Choose Store</span>
         <select 
-          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" required
           name="store" onchange="updateBill()" id="store" >
           <option default>Select Store</option>
           {% for store in stores %}
@@ -59,7 +59,7 @@
       <label class="block text-sm mt-2">
         <span class="text-gray-700 dark:text-gray-400">Payment Mode</span>
         <select
-          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" required
           name="payment_mode" onchange="updateBill()" id="payment_mode" >
             <option default>Select Payment Mode</option>
             <option value="card">Card</option>
@@ -68,6 +68,7 @@
       </label>
 
       <input type="hidden" name="rate" id="rate">
+      <input type="hidden" name="total" id="total">
       
       <button
         class="flex justify-center items-center px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
@@ -78,21 +79,18 @@
   
   </div>
   <div class="p-4 bg-white mt-6 lg:mt-0 w-full lg:w-2/5 rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800">
-    {% comment %} generate bill {% endcomment %}
     
-        <h3 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+        <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
           Bill
         </h3>
-        No. Of Pages: <span id="noOfPages"></span> <br>
-        Ammount per page: <span id="amount_per_page"></span> <br>
-        <br>
-        Total Amount: <span id="totalAmount"></span> <br>
-        Platform & Payment Charges: <span id="tax"></span> <br>
-        <br>
-        Total Payable: <span id="totalPayable"></span> <br>
+        <p class="text-gray-700 dark:text-gray-200">No. Of Pages: <span id="noOfPages"></span></p>
+        <p class="text-gray-700 dark:text-gray-200">Ammount per page: <span id="amount_per_page"></span></p>
+        <p class="text-gray-700 dark:text-gray-200">Total Amount: <span id="totalAmount"></span></p>
+        <p class="text-gray-700 dark:text-gray-200">Platform & Payment Charges: <span id="tax"></span></p>
+        <p class="text-gray-700 dark:text-gray-200">Total Payable: <span id="totalPayable"></span> </p>
 
 
-      
+      </div>
   </div>
 
 </div>     
@@ -125,6 +123,7 @@
         var rate = parseFloat(document.getElementById('totalAmount').innerHTML) + parseFloat(document.getElementById('tax').innerHTML);
         document.getElementById('totalPayable').innerHTML = rate.toFixed(2);
         document.getElementById('rate').value = rate.toFixed(2);
+        document.getElementById('total').value = parseFloat(document.getElementById('totalAmount').innerHTML).toFixed(2);
       })
     
     }

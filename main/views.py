@@ -48,7 +48,7 @@ def create_checkout_session(request, rate, order_id):
             checkout_session = stripe.checkout.Session.create(
                 customer_email=request.user.email,
                 success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}&order=' + order_id,
-                cancel_url=domain_url + 'cancelled/',
+                cancel_url=domain_url + 'cancelled/?order=' + order_id,
                 mode='payment',
                 line_items=[
                     {
@@ -73,6 +73,11 @@ def SuccessView(req):
     return render(req, 'main/payment_success.html')
 
 def CancelledView(req):
+    if req.method == "GET":
+        order_id = req.GET['order']
+        order = Order.objects.get(id=order_id)
+        order.delete()
+        messages.error(req, 'Order Cancelled!')
     messages.error(req, "Payment Failed!")
     return render(req, 'main/payment_cancelled.html')
 
