@@ -70,6 +70,7 @@ def SuccessView(req):
         order.payment_status = "Paid"
         order.save()
         messages.success(req, 'Payment Successful!')
+        messages.success(req, 'Order Placed Successfully!')
     return render(req, 'main/payment_success.html')
 
 def CancelledView(req):

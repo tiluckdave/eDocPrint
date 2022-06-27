@@ -97,7 +97,6 @@ def createOrder(req):
         payment_mode = req.POST['payment_mode']
         order = Order(user=user, store=store, document=document, print_type=print_type, rate=rate, tostore_rate=total, payment_mode=payment_mode, payment_status="Pending")
         order.save()
-        messages.success(req, "Order Created Successfully")
         if payment_mode == "cash":
             return redirect("index")
         return redirect(create_checkout_session, rate, order.id)
