@@ -44,7 +44,12 @@
                         </div>
                       </td>
                       <td class="px-4 py-3 text-sm">
-                        Rs. {{order.tostore_rate}}
+                        {% if request.user.is_staff %}
+                          Rs. {{order.tostore_rate}}
+                          {% else %}
+                          Rs. {{order.rate}}
+                          {% endif %}
+                        
                       </td>
                       <td class="px-4 py-3 text-xs">
                         {{order.payment_mode|upper}} - 
