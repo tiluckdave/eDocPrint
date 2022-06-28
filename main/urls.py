@@ -14,4 +14,5 @@ urlpatterns = [
     path('success', views.SuccessView), # new
     path('cancelled/', views.CancelledView), # new
     path('getRates', views.getRates, name="getRates"), # new
+    path('deleteAcc', views.deleteAcc, name="deleteAcc")
 ]

@@ -158,3 +158,7 @@ def getRates(req):
         store_setting = StoreSetting.objects.get(store=store)
         rate = store_setting.get_rate(print_type)
         return JsonResponse({'rate': rate})
+    
+def deleteAcc(req):
+    req.user.delete()
+    return redirect('index')
