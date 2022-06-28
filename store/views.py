@@ -9,10 +9,10 @@ def orders(req):
     context = {}
     if req.user.is_staff:
         store = Store.objects.get(user=req.user)
-        orders = Order.objects.filter(store=store)
+        orders = Order.objects.filter(store=store).order_by('timestamp')
         context['orders'] = orders
     else:
-        orders = Order.objects.filter(user=req.user)
+        orders = Order.objects.filter(user=req.user).order_by('timestamp')
         context['orders'] = orders
     if SecurePin.objects.filter(user=req.user).exists():
         context['spin'] = True
