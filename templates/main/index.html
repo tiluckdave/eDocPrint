@@ -113,7 +113,7 @@
       store = document.getElementById('store');
       store_id = parseInt(store.value);
       {% for store in stores %}
-          {% if store.id == 1 %}
+          {% if store.id == 2 %}
       document.getElementById('store_details').innerHTML = `
           {{store.Store_name}} <br>
           {{store.Store_operator}} <br>
