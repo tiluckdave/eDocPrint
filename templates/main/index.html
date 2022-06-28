@@ -11,6 +11,7 @@
       <h2
       class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
       >
+      <span class="block text-lg font-semibold text-gray-500 dark:text-gray-400">Welcome, {{request.user.first_name}} {{request.user.last_name}}</span>
       Instant Print 
     </h2>
 
@@ -73,7 +74,7 @@
       <button
         class="flex justify-center items-center px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
         onclick="loading(this, 'Processing')" >
-        Submit
+        Get it Done
       </button>
     </form>
   
@@ -88,8 +89,12 @@
         <p class="text-gray-700 dark:text-gray-200">Total Amount: <span id="totalAmount"></span></p>
         <p class="text-gray-700 dark:text-gray-200">Platform & Payment Charges: <span id="tax"></span></p>
         <p class="text-gray-700 dark:text-gray-200">Total Payable: <span id="totalPayable"></span> </p>
-
-
+        <br>
+        <br>
+        <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
+          Store Details
+        </h3>
+        <p class="text-gray-700 dark:text-gray-200" id="store_details"></p>
       </div>
   </div>
 
@@ -106,7 +111,18 @@
       document.getElementById('noOfPages').innerHTML = pages.value.split(',')[0];
     
       store = document.getElementById('store');
-      store_id = store.value;
+      store_id = parseInt(store.value);
+      {% for store in stores %}
+          {% if store.id == 1 %}
+      document.getElementById('store_details').innerHTML = `
+          {{store.Store_name}} <br>
+          {{store.Store_operator}} <br>
+          {{store.address}} <br>
+          {{store.Store_phone}} <br>
+          {{store.Store_email}} <br>
+          `
+          {% endif %}
+        {% endfor %}
       print_type = document.getElementById('print_type');
       print_type_val = print_type.value;
       fetch('{% url 'getRates' %}?store_id=' + store_id + '&print_type=' + print_type_val)
